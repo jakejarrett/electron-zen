@@ -1,0 +1,13 @@
+diff --git a/xpfe/appshell/AppWindow.cpp b/xpfe/appshell/AppWindow.cpp
+index eba6c332249bfe936da285f73b7a1723cf480950..85db9031b6605da91987901d0c6ce31ddb56c3ad 100644
+--- a/xpfe/appshell/AppWindow.cpp
++++ b/xpfe/appshell/AppWindow.cpp
+@@ -1873,7 +1873,7 @@ nsresult AppWindow::MaybeSaveEarlyWindowPersistentValues(
+     }
+   }
+ 
+-  settings.verticalTabs = Preferences::GetBool("sidebar.verticalTabs", false);
++  settings.verticalTabs = Preferences::GetBool("zen.tabs.vertical", false);
+ 
+   (void)PersistPreXULSkeletonUIValues(settings);
+ #endif

@@ -1,0 +1,9 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+# JAR manifest for Electron compatibility layer chrome resources
+
+electron-host.jar:
+% content electron-host %content/
+  content/electron-window.xhtml                (content/electron-window.xhtml)

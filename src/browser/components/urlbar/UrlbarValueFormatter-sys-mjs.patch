@@ -1,0 +1,88 @@
+diff --git c/browser/components/urlbar/UrlbarValueFormatter.sys.mjs w/browser/components/urlbar/UrlbarValueFormatter.sys.mjs
+index 307b3cac25..d1c776219d 100644
+--- c/browser/components/urlbar/UrlbarValueFormatter.sys.mjs
++++ w/browser/components/urlbar/UrlbarValueFormatter.sys.mjs
+@@ -76,7 +76,7 @@ export class UrlbarValueFormatter {
+       if (this.#updateInstance != instance) {
+         return;
+       }
+-      this.#formattingApplied = this.#formatURL() || this.#formatSearchAlias();
++      this.#formattingApplied = this._formatURL() || this.#formatSearchAlias();
+     });
+   }
+ 
+@@ -370,7 +370,7 @@ export class UrlbarValueFormatter {
+    * @returns {boolean}
+    *   True if formatting was applied and false if not.
+    */
+-  #formatURL() {
++  _formatURL() {
+     let urlMetaData = this.#getUrlMetaData();
+     if (!urlMetaData) {
+       return false;
+@@ -414,11 +414,28 @@ export class UrlbarValueFormatter {
+     }
+ 
+     let editor = this.#urlbarInput.editor;
+-    let controller = editor.selectionController;
++    // Bail out if editor is not available (e.g., urlbar hidden in electron mode)
++    if (!editor) {
++      return false;
++    }
++    let controller;
++    try {
++      controller = editor.selectionController;
++    } catch (e) {
++      return false;
++    }
+ 
+     this.#formatScheme(controller.SELECTION_URLSECONDARY);
+ 
+-    let textNode = editor.rootElement.firstChild;
++    let textNode;
++    try {
++      textNode = editor.rootElement?.firstChild;
++    } catch (e) {
++      return false;
++    }
++    if (!textNode) {
++      return false;
++    }
+ 
+     // Strike out the "https" part if mixed active content status should be
+     // shown.
+@@ -474,9 +491,23 @@ export class UrlbarValueFormatter {
+ 
+   #formatScheme(selectionType, clear) {
+     let editor = this.#scheme.editor;
+-    let controller = editor.selectionController;
+-    let textNode = editor.rootElement.firstChild;
+-    let selection = controller.getSelection(selectionType);
++    // Bail out if editor is null (can happen in electron-mode windows where urlbar is hidden)
++    if (!editor) {
++      return;
++    }
++    // Wrap in try-catch as rootElement can throw NS_ERROR_NOT_AVAILABLE when urlbar is hidden
++    let controller, textNode, selection;
++    try {
++      controller = editor.selectionController;
++      textNode = editor.rootElement?.firstChild;
++      if (!textNode) {
++        return;
++      }
++      selection = controller.getSelection(selectionType);
++    } catch (e) {
++      // Editor not available (e.g., urlbar hidden in electron mode)
++      return;
++    }
+     if (clear) {
+       selection.removeAllRanges();
+     } else {
+@@ -639,6 +670,7 @@ export class UrlbarValueFormatter {
+       this.#window.requestAnimationFrame(() => {
+         if (instance == this.#resizeInstance) {
+           this.#ensureFormattedHostVisible();
++          this._formatURL();
+         }
+       });
+     }, 100);

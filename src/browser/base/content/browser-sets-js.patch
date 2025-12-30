@@ -1,0 +1,13 @@
+diff --git a/browser/base/content/browser-sets.js b/browser/base/content/browser-sets.js
+index 0bb581aa34ddeef1e3eb85b0fadd41a539b4b9d6..cbe2df8b1775cb8194007ee995fd91769618b48d 100644
+--- a/browser/base/content/browser-sets.js
++++ b/browser/base/content/browser-sets.js
+@@ -254,7 +254,7 @@ document.addEventListener(
+         }
+       });
+ 
+-    document.getElementById("mainKeyset").addEventListener("command", event => {
++    document.getElementById("zenKeyset").addEventListener("command", event => {
+       const SIDEBAR_REVAMP_PREF = "sidebar.revamp";
+       const SIDEBAR_REVAMP_ENABLED = Services.prefs.getBoolPref(
+         SIDEBAR_REVAMP_PREF,

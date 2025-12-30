@@ -1,0 +1,31 @@
+name: Pull request test
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  pr-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download Firefox and dependencies
+        run: npm run download
+
+      - name: Import patches
+        run: npm run import

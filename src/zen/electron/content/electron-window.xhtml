@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!--
+  electron-window.xhtml - The XUL window template for Electron BrowserWindows.
+  
+  This is a minimal chrome window that hosts web content via a browser element.
+  It's designed to be as lightweight as possible while providing the necessary
+  infrastructure for Electron-compatible window management.
+-->
+
+<!DOCTYPE window>
+<window
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  id="electron-window"
+  windowtype="electron:window"
+  persist="screenX screenY width height"
+  style="background-color: #ffffff;"
+>
+  <script type="application/javascript"><![CDATA[
+    // Window initialization script
+    (function() {
+      "use strict";
+      
+      // Get window ID from the window name (set by BrowserWindow)
+      const windowName = window.name;
+      const windowIdMatch = windowName.match(/electron-window-(\d+)/);
+      const windowId = windowIdMatch ? parseInt(windowIdMatch[1], 10) : null;
+      
+      // Store window ID for reference
+      window.electronWindowId = windowId;
+      
+      // Log window creation
+      console.log(`Electron window created: ${windowId}`);
+      
+      // Handle window close request
+      window.addEventListener("close", (event) => {
+        // The BrowserWindow class handles the close event
+        // and may prevent it based on app logic
+      });
+      
+      // Expose a method to get the browser element
+      window.getElectronBrowser = function() {
+        return document.getElementById("electron-browser");
+      };
+      
+      // Expose a method to set content URL
+      window.loadURL = function(url) {
+        const browser = document.getElementById("electron-browser");
+        if (browser) {
+          browser.loadURI(Services.io.newURI(url), {
+            triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal()
+          });
+        }
+      };
+    })();
+  ]]></script>
+
+  <!-- Main browser container -->
+  <vbox id="browser-container" flex="1">
+    <!-- 
+      The browser element hosts the actual web content.
+      - type="content" makes it a content browser (not chrome)
+      - remote="true" runs content in a separate process (e10s/Fission)
+      - flex="1" makes it fill the available space
+    -->
+    <browser
+      id="electron-browser"
+      type="content"
+      remote="true"
+      flex="1"
+      disablehistory="false"
+      tooltip="aHTMLTooltip"
+      autocompletepopup="PopupAutoComplete"
+    />
+  </vbox>
+
+  <!-- Tooltip for HTML title attributes -->
+  <tooltip id="aHTMLTooltip" page="true"/>
+  
+  <!-- Autocomplete popup (may be needed by some content) -->
+  <panel id="PopupAutoComplete"
+         type="autocomplete"
+         level="top"
+         noautofocus="true"
+         hidden="true"/>
+
+</window>

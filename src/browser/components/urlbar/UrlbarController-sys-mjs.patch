@@ -1,0 +1,21 @@
+diff --git a/browser/components/urlbar/UrlbarController.sys.mjs b/browser/components/urlbar/UrlbarController.sys.mjs
+index 09c1a7d4e156fe5e606f097277420333efe88976..f31e183e7b92c616d81dae509ef0448c4d507cc7 100644
+--- a/browser/components/urlbar/UrlbarController.sys.mjs
++++ b/browser/components/urlbar/UrlbarController.sys.mjs
+@@ -296,7 +296,6 @@ export class UrlbarController {
+     const isMac = AppConstants.platform == "macosx";
+     // Handle readline/emacs-style navigation bindings on Mac.
+     if (
+-      isMac &&
+       this.view.isOpen &&
+       event.ctrlKey &&
+       (event.key == "n" || event.key == "p")
+@@ -445,6 +444,8 @@ export class UrlbarController {
+             });
+           }
+           event.preventDefault();
++        } else if (!this.input.value && !(event.ctrlKey || event.altKey || event.shiftKey)) {
++          this.browserWindow.gZenUIManager.enableCommandsMode(event);
+         }
+         break;
+       }

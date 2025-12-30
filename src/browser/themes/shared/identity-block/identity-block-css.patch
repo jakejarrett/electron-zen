@@ -1,0 +1,48 @@
+diff --git a/browser/themes/shared/identity-block/identity-block.css b/browser/themes/shared/identity-block/identity-block.css
+index 34e9206ff45592db2b1b24568f1f6f1bf16b4c3a..6fa3f13dd18f90bcc0c715c4896617fdfce4887e 100644
+--- a/browser/themes/shared/identity-block/identity-block.css
++++ b/browser/themes/shared/identity-block/identity-block.css
+@@ -7,7 +7,7 @@
+ #identity-box {
+   margin-inline-end: var(--identity-box-margin-inline);
+ 
+-  &[pageproxystate="invalid"] {
++  :root[zen-has-empty-tab='true'] & {
+     pointer-events: none;
+     -moz-user-focus: ignore;
+   }
+@@ -81,13 +81,6 @@
+   }
+ }
+ 
+-#identity-box[pageproxystate="valid"]:is(.notSecureText, .chromeUI, .extensionPage) > .identity-box-button,
+-#urlbar-label-box {
+-  background-color: var(--urlbar-box-bgcolor);
+-  color: var(--urlbar-box-text-color);
+-  padding-inline: 8px;
+-  border-radius: var(--urlbar-inner-border-radius);
+-}
+ 
+ #urlbar[focused] {
+   #identity-box[pageproxystate="valid"]:is(.notSecureText, .chromeUI, .extensionPage) > .identity-box-button:not(:hover, [open]),
+@@ -178,16 +171,17 @@
+   }
+ 
+   #identity-icon {
+-    list-style-image: url(chrome://global/skin/icons/search-glass.svg);
++    list-style-image: url(chrome://global/skin/icons/search-glass.svg) !important;
++    fill-opacity: 0.5;
+   }
+ }
+ 
+ #urlbar[actiontype="extension"] > .urlbar-input-container > #identity-box #identity-icon {
+-  list-style-image: url(chrome://mozapps/skin/extensions/extension.svg);
++  list-style-image: url(chrome://mozapps/skin/extensions/extension.svg) !important;
+ }
+ 
+ #identity-box[pageproxystate="valid"].extensionPage #identity-icon {
+-  list-style-image: url(chrome://mozapps/skin/extensions/extension.svg);
++  list-style-image: url(chrome://mozapps/skin/extensions/extension.svg) !important;
+ }
+ 
+ #identity-box[pageproxystate="valid"].verifiedDomain #identity-icon,

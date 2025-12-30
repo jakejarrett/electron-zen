@@ -1,0 +1,48 @@
+diff --git a/toolkit/themes/shared/aboutReader.css b/toolkit/themes/shared/aboutReader.css
+index f1166fb9b8251ee7d631c53c443e5986cbf4d29d..9233941bbdbf235c0ce6ce9b680002f2023d659c 100644
+--- a/toolkit/themes/shared/aboutReader.css
++++ b/toolkit/themes/shared/aboutReader.css
+@@ -1187,3 +1187,43 @@ pre code {
+   display: block;
+   overflow: auto;
+ }
++
++/* Zen Overrides */
++
++.toolbar {
++  border: none !important;
++  padding: 0 !important;
++  box-shadow: none !important;
++}
++
++.toolbar-button {
++  border-radius: 50% !important;
++}
++
++.open>.dropdown-popup {
++  border: 1px solid light-dark(#00000033, #ffffff33) !important;
++  border-radius: 12px !important;
++}
++
++.font-type-buttons > label {
++  background-color: transparent !important;
++}
++
++.radiorow>label {
++  border-radius: 8px !important;
++}
++
++.buttonrow > button {
++  opacity: .6;
++}
++
++.buttonrow > button:enabled:hover,
++.buttonrow > button:enabled:hover:active {
++  background-color: transparent !important;
++  opacity: 1;
++}
++
++.radiorow>input[type=radio]:focus-visible+label::after,
++.radiorow>label:hover::after {
++  border: none !important;
++}

@@ -1,0 +1,311 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/**
+ * Styles for Electron-mode windows in Zen Browser.
+ * These styles hide browser chrome to make the window behave like an Electron app.
+ * 
+ * Frame modes:
+ *   - frame: true    → OS window decorations (no browser chrome)
+ *   - frame: false   → Frameless (no decorations at all)
+ *   - frame: "csd"   → Client-Side Decorations (browser draws titlebar with controls)
+ */
+
+/* =============================================================================
+ * BASE ELECTRON MODE - Common styles for all frame modes
+ * ============================================================================= */
+
+/* Hide browser toolbars */
+:root[electron-mode="true"] #TabsToolbar,
+:root[electron-mode="true"] #toolbar-menubar,
+:root[electron-mode="true"] #tabbrowser-tabs,
+:root[electron-mode="true"] .content-analysis-indicator-icon {
+  display: none !important;
+}
+
+:root[electron-mode="true"] #PersonalToolbar {
+  display: none !important;
+}
+
+:root[electron-mode="true"] #toolbar-menubar {
+  display: none !important;
+}
+
+/* Hide Zen-specific elements */
+:root[electron-mode="true"] #zen-sidebar,
+:root[electron-mode="true"] #zen-sidebar-splitter,
+:root[electron-mode="true"] #zen-workspaces-button {
+  display: none !important;
+}
+
+/* Content area fills window */
+:root[electron-mode="true"] #browser {
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+
+:root[electron-mode="true"] #appcontent {
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+
+:root[electron-mode="true"] #tabbrowser-tabbox {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Hide context menu items that don't make sense for Electron apps */
+:root[electron-mode="true"] #context-bookmarkpage,
+:root[electron-mode="true"] #context-pocket,
+:root[electron-mode="true"] #context-sendpagetodevice,
+:root[electron-mode="true"] #context-sendlinktodevice {
+  display: none !important;
+}
+
+/* =============================================================================
+ * FRAMELESS MODE (frame: false) - No window decorations at all
+ * ============================================================================= */
+
+:root[electron-mode="true"][electron-frameless="true"] #navigator-toolbox {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+:root[electron-mode="true"][electron-frameless="true"] #titlebar,
+:root[electron-mode="true"][electron-frameless="true"] .titlebar-buttonbox,
+:root[electron-mode="true"][electron-frameless="true"] .titlebar-spacer {
+  display: none !important;
+}
+
+:root[electron-mode="true"][electron-frameless="true"] {
+  -moz-appearance: none !important;
+}
+
+/* =============================================================================
+ * CSD MODE (frame: "csd") - Browser draws titlebar with window controls
+ * ============================================================================= */
+
+/* CSS variables for app customization */
+:root[electron-mode="true"][electron-frame-csd="true"] {
+  --electron-titlebar-height: 32px;
+  --electron-titlebar-background: var(--toolbar-bgcolor, -moz-dialog);
+  --electron-titlebar-color: var(--toolbar-color, -moz-dialogtext);
+}
+
+/* Body needs to be a vertical flex container for CSD mode */
+:root[electron-mode="true"][electron-frame-csd="true"] body {
+  display: -moz-box !important;
+  -moz-box-orient: vertical !important;
+  -moz-box-direction: normal !important;
+  -moz-box-align: stretch !important;
+}
+
+/* The electron titlebar - full width at top, fixed height */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar {
+  display: -moz-box !important;
+  -moz-box-orient: horizontal !important;
+  -moz-box-align: center !important;
+  min-height: var(--electron-titlebar-height) !important;
+  max-height: var(--electron-titlebar-height) !important;
+  height: var(--electron-titlebar-height) !important;
+  width: 100% !important;
+  background-color: var(--electron-titlebar-background, black) !important;
+  color: var(--electron-titlebar-color) !important;
+  -moz-window-dragging: drag;
+  box-sizing: border-box !important;
+  flex-shrink: 0 !important;
+  -moz-box-ordinal-group: 1 !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Navigator toolbox is hidden in CSD mode - we have our own titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #navigator-toolbox {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Titlebar container - full width */
+:root[electron-mode="true"][electron-frame-csd="true"] #titlebar {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  min-height: var(--electron-titlebar-height) !important;
+  height: var(--electron-titlebar-height) !important;
+  width: 100% !important;
+  background-color: var(--electron-titlebar-background, black) !important;
+  -moz-window-dragging: drag;
+  box-sizing: border-box !important;
+}
+
+/* Hide all toolbars - we have our own titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #TabsToolbar,
+:root[electron-mode="true"][electron-frame-csd="true"] #nav-bar,
+:root[electron-mode="true"][electron-frame-csd="true"] #PersonalToolbar,
+:root[electron-mode="true"][electron-frame-csd="true"] #toolbar-menubar,
+:root[electron-mode="true"][electron-frame-csd="true"] #titlebar {
+  display: none !important;
+}
+
+/* Window control buttons - ensure they're visible in electron titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar .titlebar-buttonbox-container {
+  display: -moz-box !important;
+  -moz-box-align: center !important;
+  height: 100% !important;
+  -moz-window-dragging: no-drag;
+}
+
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar .titlebar-buttonbox {
+  display: -moz-box !important;
+  -moz-box-align: center !important;
+}
+
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar .titlebar-button {
+  display: -moz-box !important;
+  -moz-window-dragging: no-drag;
+}
+
+/* Maximize/Restore button visibility based on window state */
+/* When NOT maximized: show maximize, hide restore */
+:root[electron-mode="true"][electron-frame-csd="true"]:not([sizemode="maximized"]) #electron-titlebar .titlebar-restore {
+  display: none !important;
+}
+
+/* When maximized: hide maximize, show restore */
+:root[electron-mode="true"][electron-frame-csd="true"][sizemode="maximized"] #electron-titlebar .titlebar-max {
+  display: none !important;
+}
+
+:root[electron-mode="true"][electron-frame-csd="true"][sizemode="maximized"] #electron-titlebar .titlebar-restore {
+  display: -moz-box !important;
+}
+
+/* Spacers - hide them in electron titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar .titlebar-spacer {
+  display: none !important;
+}
+
+/* =============================================================================
+ * ELECTRON TITLEBAR CONTENT - Custom titlebar area for apps
+ * ============================================================================= */
+
+/* Container for custom app titlebar content */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-content {
+  display: -moz-box !important;
+  -moz-box-flex: 1 !important;
+  -moz-box-align: center !important;
+  height: 100% !important;
+  padding: 0 8px !important;
+  -moz-window-dragging: drag;
+  overflow: hidden !important;
+}
+
+/* App icon in titlebar */
+/* :root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-icon {
+  width: 16px !important;
+  height: 16px !important;
+  -moz-window-dragging: drag;
+} */
+
+/* App title in titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-title {
+  -moz-box-flex: 1 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  -moz-window-dragging: drag;
+  color: var(--electron-titlebar-color) !important;
+}
+
+/* Interactive elements in titlebar should not be draggable */
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-content button,
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-content input,
+:root[electron-mode="true"][electron-frame-csd="true"] #electron-titlebar-content [data-no-drag="true"] {
+  -moz-window-dragging: no-drag;
+}
+
+/* =============================================================================
+ * CSD MODE - Hide extra chrome elements and fix layout
+ * ============================================================================= */
+
+/* Hide Zen sidebar and related elements in CSD mode */
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-sidebar,
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-sidebar-splitter {
+  display: none !important;
+}
+
+/* Main app wrapper fills remaining space below titlebar */
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-main-app-wrapper {
+  -moz-box-flex: 1 !important;
+  -moz-box-ordinal-group: 2 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background-color: var(--electron-titlebar-background, black) !important;
+}
+
+/* Browser content area fills the wrapper */
+:root[electron-mode="true"][electron-frame-csd="true"] #browser {
+  -moz-box-flex: 1 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background-color: var(--electron-titlebar-background, black) !important;
+}
+
+/* Ensure appcontent wrapper is properly sized */
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-appcontent-wrapper {
+  display: -moz-box !important;
+  -moz-box-flex: 1 !important;
+  -moz-box-orient: vertical !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Remove any Zen tabbox wrapper margin/padding that creates the black border */
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-tabbox-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/* Remove rounded corners and borders from content areas */
+:root[electron-mode="true"][electron-frame-csd="true"] #tabbrowser-tabpanels {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+:root[electron-mode="true"][electron-frame-csd="true"] .browserSidebarContainer {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+:root[electron-mode="true"][electron-frame-csd="true"] .browserStack {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: var(--electron-titlebar-background, black) !important;
+}
+
+/* Hide any stray Zen UI elements */
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-sidebar-icons-wrapper,
+:root[electron-mode="true"][electron-frame-csd="true"] .zen-sidebar-action-button,
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-workspaces-button,
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-sidebar-top-buttons,
+:root[electron-mode="true"][electron-frame-csd="true"] #zen-sidebar-web-panel-wrapper {
+  display: none !important;
+}

@@ -1,0 +1,20 @@
+diff --git a/browser/components/sessionstore/SessionSaver.sys.mjs b/browser/components/sessionstore/SessionSaver.sys.mjs
+index 9141793550f7c7ff6aa63d4c85bf571b4499e2d0..f00314ebf75ac826e1c9cca8af264ff8aae106c0 100644
+--- a/browser/components/sessionstore/SessionSaver.sys.mjs
++++ b/browser/components/sessionstore/SessionSaver.sys.mjs
+@@ -20,6 +20,7 @@ ChromeUtils.defineESModuleGetters(lazy, {
+   SessionFile: "resource:///modules/sessionstore/SessionFile.sys.mjs",
+   SessionStore: "resource:///modules/sessionstore/SessionStore.sys.mjs",
+   sessionStoreLogger: "resource:///modules/sessionstore/SessionLogger.sys.mjs",
++  ZenSessionStore: "resource:///modules/zen/ZenSessionManager.sys.mjs",
+ });
+ 
+ /*
+@@ -305,6 +306,7 @@ var SessionSaverInternal = {
+     this._maybeClearCookiesAndStorage(state);
+ 
+     Glean.sessionRestore.collectData.stopAndAccumulate(timerId);
++    lazy.ZenSessionStore.saveState(state);
+     return this._writeState(state);
+   },
+ 

@@ -1,0 +1,13 @@
+diff --git a/browser/components/search/SearchUIUtils.sys.mjs b/browser/components/search/SearchUIUtils.sys.mjs
+index 15fdb0cd7664c2b49977902d7f4c7a117d82cf15..6aedbc18de6604b63b2586e7d9745a4c4e7e38ae 100644
+--- a/browser/components/search/SearchUIUtils.sys.mjs
++++ b/browser/components/search/SearchUIUtils.sys.mjs
+@@ -434,7 +434,7 @@ export var SearchUIUtils = {
+         triggeringSearchEngine: engine.name,
+       },
+     });
+-
++    window.gZenGlanceManager?.onSearchSelectCommand(where);
+     return { engine, url: submission.uri };
+   },
+ 
