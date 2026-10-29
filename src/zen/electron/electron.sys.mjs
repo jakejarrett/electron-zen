@@ -28,6 +28,16 @@ export { shell } from 'resource:///modules/electron/main/shell.sys.mjs';
 export { clipboard } from 'resource:///modules/electron/main/clipboard.sys.mjs';
 export { nativeTheme } from 'resource:///modules/electron/main/nativeTheme.sys.mjs';
 
+// Archive support
+export {
+  default as asar,
+  AsarArchive,
+  extractAll,
+  extractFile,
+  listPackage,
+  createPackage,
+} from 'resource:///modules/electron/common/asar.sys.mjs';
+
 // Renderer process modules (for preload scripts)
 export { ipcRenderer, createIpcRenderer } from 'resource:///modules/electron/renderer/ipcRenderer.sys.mjs';
 export { contextBridge, createContextBridge } from 'resource:///modules/electron/renderer/contextBridge.sys.mjs';
@@ -119,6 +129,7 @@ const electronDefault = {
   shell: null,
   clipboard: null,
   nativeTheme: null,
+  asar: null,
 
   // Not implemented yet
   Menu,
@@ -202,6 +213,13 @@ ChromeUtils.defineLazyGetter(electronDefault, 'nativeTheme', () => {
     'resource:///modules/electron/main/nativeTheme.sys.mjs'
   );
   return nativeTheme;
+});
+
+ChromeUtils.defineLazyGetter(electronDefault, 'asar', () => {
+  const asar = ChromeUtils.importESModule(
+    'resource:///modules/electron/common/asar.sys.mjs'
+  );
+  return asar.default;
 });
 
 export default electronDefault;

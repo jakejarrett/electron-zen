@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 EXTRA_JS_MODULES.electron.common += [
+    "asar.sys.mjs",
     "debug.sys.mjs",
     "EventEmitter.sys.mjs",
     "pathUtils.sys.mjs",

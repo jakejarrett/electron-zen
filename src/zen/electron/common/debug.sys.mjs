@@ -128,9 +128,10 @@ export function createLogger(moduleName) {
      */
     time: (label) => {
       if (!isDebugEnabled()) return () => {};
-      const start = performance.now();
+      const start = Cu.now ? Cu.now() : Date.now();
       return () => {
-        const duration = (performance.now() - start).toFixed(2);
+        const end = Cu.now ? Cu.now() : Date.now();
+        const duration = (end - start).toFixed(2);
         log(LogLevel.DEBUG, 'DEBUG', `${label}: ${duration}ms`);
       };
     },

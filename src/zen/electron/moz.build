@@ -21,3 +21,8 @@ EXTRA_JS_MODULES.electron += [
 
 # Chrome content (XUL windows, etc.)
 JAR_MANIFESTS += ["jar.mn"]
+
+# Component manifest for startup registration
+EXTRA_COMPONENTS += [
+    "ElectronComponents.manifest",
+]
